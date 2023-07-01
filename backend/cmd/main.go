@@ -1,9 +1,8 @@
 package main
 
-import (
-	"fmt"
-)
+import "bebrah/app/server"
 
 func main() {
-	fmt.Println("Hello, world!")
+	r := server.SetupRouter()
+	r.Run()
 }
