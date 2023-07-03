@@ -2,7 +2,7 @@ package server
 
 import "github.com/gin-gonic/gin"
 
-func setupProfile(r *gin.Engine) {
+func setupProfile(r *gin.RouterGroup) {
 	profile := r.Group("/profile")
 	// get profile
 	profile.GET("/", func(c *gin.Context) {
