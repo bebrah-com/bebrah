@@ -1,9 +1,13 @@
 package server
 
-import "github.com/gin-gonic/gin"
+import (
+	"bebrah/app/middleware"
+
+	"github.com/gin-gonic/gin"
+)
 
 func setupWork(r *gin.RouterGroup) {
-	work := r.Group("/work")
+	work := r.Group("/work", middleware.JWTAuthMiddleware())
 	// get work
 	work.GET("/", func(c *gin.Context) {
 		// TODO: implement

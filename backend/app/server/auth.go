@@ -84,13 +84,25 @@ func setupAuth(r *gin.RouterGroup) {
 			return
 		}
 
-		c.ProtoBuf(http.StatusOK, &LoginResp{
+		user.Token = tokenString
+		db.Db().Model(&user).Update("token", tokenString)
+
+		c.JSON(http.StatusOK, &LoginResp{
 			Token:          tokenString,
 			TokenExpiredAt: &expiredAt,
 		})
 	})
-	auth.POST("/logout", func(c *gin.Context) {
+	auth.POST("/logout", middleware.JWTAuthMiddleware(), func(c *gin.Context) {
+		userId, exist := c.Get("user")
+		if !exist {
+			c.JSON(http.StatusBadRequest, gin.H{"message": "invalid request, user not found"})
+			return
+		}
 
+		var user db.User
+		db.Db().Where("id = ?", userId).First(&user)
+		user.Token = ""
+		db.Db().Model(&user).Update("token", "")
 	})
 	auth.POST("/verifyemail/:verifycationCode", func(c *gin.Context) {
 		// TODO: implement

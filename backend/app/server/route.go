@@ -10,7 +10,7 @@ import (
 
 func SetupRouter() *gin.Engine {
 	server := gin.Default()
-	server.GET("/ping", func(c *gin.Context) {
+	server.GET("/ping", middleware.JWTAuthMiddleware(), func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"message": "pong"})
 	})
 
@@ -20,7 +20,7 @@ func SetupRouter() *gin.Engine {
 
 	server.Use(cors.New(corsConfig))
 
-	router := server.Group("/api", middleware.JWTAuthMiddleware())
+	router := server.Group("/api")
 	setupAuth(router)
 	setupWork(router)
 	setupProfile(router)

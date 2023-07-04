@@ -26,12 +26,11 @@ var (
 )
 
 type User struct {
-	ID             uint64     `gorm:"primaryKey;autoIncrement"`
-	Email          string     `gorm:"type:VARCHAR(256);unique;not null"`
-	Password       string     `gorm:"type:VARCHAR(128);not null"`
-	CreatedAt      *time.Time `gorm:"type:TIMESTAMP;autoCreateTime"`
-	Token          string     `gorm:"type:TEXT;token"`
-	TokenExpiredAt *time.Time `gorm:"type:TIMESTAMP`
+	ID        uint64     `gorm:"primaryKey;autoIncrement"`
+	Email     string     `gorm:"type:VARCHAR(256);unique;not null"`
+	Password  string     `gorm:"type:VARCHAR(128);not null"`
+	CreatedAt *time.Time `gorm:"type:TIMESTAMP;autoCreateTime"`
+	Token     string     `gorm:"type:TEXT"`
 }
 
 func getEnv(path string) Env {
