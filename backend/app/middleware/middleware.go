@@ -2,8 +2,12 @@ package middleware
 
 import (
 	"bebrah/app/db"
+	"errors"
 	"net/http"
+	"strconv"
 	"strings"
+
+	"bebrah/app/model"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -12,6 +16,27 @@ import (
 )
 
 var SecretKey = []byte("secret")
+
+const UserIdKey = "userId"
+
+func GetUserIdFromGin(c *gin.Context) (uint64, error) {
+	userId, exist := c.Get(UserIdKey)
+	if !exist {
+		return 0, errors.New("userId not found")
+	}
+
+	userIdStr, ok := userId.(string)
+	if !ok {
+		return 0, errors.New("userId is not string")
+	}
+
+	userIdInt, err := strconv.Atoi(userIdStr)
+	if err != nil {
+		return 0, err
+	}
+
+	return uint64(userIdInt), nil
+}
 
 func JWTAuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -54,24 +79,30 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "unauthorized"})
 		}
 		if token.Valid {
-			userId := claims["iss"]
-			c.Set("user", userId)
+			log.Info("Get user from token", zap.Any("claims", claims))
+			c.Set(UserIdKey, claims["jti"])
+
+			userId, err := GetUserIdFromGin(c)
+			if err != nil {
+				c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "unauthorized"})
+				return
+			}
 
 			// get user from db
-			var user db.User
-			db.Db().Where("email = ?", user).First(&user)
+			var user model.User
+			db.Db().Where("id = ?", userId).First(&user)
 			if user.ID == 0 {
-				c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "unauthorized"})
+				c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "unauthorized: ID not exist"})
 				return
 			}
 
 			if user.Token != tokenString {
-				c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "unauthorized"})
+				c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "unauthorized: token string not match"})
 				return
 			}
 		} else {
 			log.Info("invalid token", zap.String("token", tokenString))
-			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "unauthorized"})
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"message": "unauthorized: invalid token"})
 			return
 		}
 

@@ -9,11 +9,21 @@ import (
 func setupProfile(r *gin.RouterGroup) {
 	profile := r.Group("/profile", middleware.JWTAuthMiddleware())
 	// get profile
-	profile.GET("/", func(c *gin.Context) {
+	profile.GET("/me", func(c *gin.Context) {
 		// TODO: implement
 	})
 	// edit profile
-	profile.POST("/", func(c *gin.Context) {
+	profile.POST("/me", func(c *gin.Context) {
+		// TODO: implement
+	})
+	// get some user's profile, contain:
+	// - user's info
+	// - user's nfts
+	// - user's works
+	// - user's followers
+	// - user's followings
+	// - user's likes
+	profile.GET("/{user_id}", func(c *gin.Context) {
 		// TODO: implement
 	})
 }
