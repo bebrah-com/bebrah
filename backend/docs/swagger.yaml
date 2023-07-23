@@ -1,0 +1,178 @@
+basePath: /api/v1
+definitions:
+  model.ListWokrsResp:
+    properties:
+      count:
+        type: integer
+      works:
+        items:
+          $ref: '#/definitions/model.Work'
+        type: array
+    type: object
+  model.ListWorksReq:
+    properties:
+      page:
+        type: integer
+      page_size:
+        type: integer
+      user_id:
+        type: integer
+    type: object
+  model.LoginReq:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  model.LoginResp:
+    properties:
+      token:
+        type: string
+      tokenExpiredAt:
+        type: string
+    type: object
+  model.RegisterReq:
+    properties:
+      confirmPassword:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  model.User:
+    properties:
+      createdAt:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      password:
+        type: string
+      token:
+        type: string
+      userName:
+        type: string
+    type: object
+  model.Work:
+    properties:
+      createdAt:
+        type: string
+      data:
+        type: string
+      deletedAt:
+        type: string
+      id:
+        type: integer
+      user:
+        $ref: '#/definitions/model.User'
+      userID:
+        type: integer
+      workDesc:
+        type: string
+      workName:
+        type: string
+    type: object
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /auth/login:
+    post:
+      description: login
+      parameters:
+      - description: login request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.LoginReq'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.LoginResp'
+      tags:
+      - auth
+  /auth/logout:
+    post:
+      description: logout
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      tags:
+      - auth
+  /auth/register:
+    post:
+      description: register
+      parameters:
+      - description: register request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.RegisterReq'
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      tags:
+      - auth
+  /ping:
+    get:
+      description: do ping
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      tags:
+      - example
+  /works:
+    get:
+      description: list all works (by user id or not)
+      parameters:
+      - description: list works request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.ListWorksReq'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.ListWokrsResp'
+      tags:
+      - works
+    post:
+      description: upload a work
+      parameters:
+      - description: work file
+        in: formData
+        name: file
+        required: true
+        type: file
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      tags:
+      - auth
+swagger: "2.0"
