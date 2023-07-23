@@ -15,8 +15,9 @@ func SetupRouter() *gin.Engine {
 	})
 
 	corsConfig := cors.DefaultConfig()
-	corsConfig.AllowOrigins = []string{"http://localhost:8000", "http://localhost:3000"}
+	corsConfig.AllowOrigins = []string{"*"}
 	corsConfig.AllowCredentials = true
+	corsConfig.AllowHeaders = append(corsConfig.AllowHeaders, "Authorization")
 
 	server.Use(cors.New(corsConfig))
 
