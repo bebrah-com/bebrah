@@ -145,6 +145,19 @@ const docTemplate = `{
                         "name": "file",
                         "in": "formData",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "work name",
+                        "name": "name",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "work description",
+                        "name": "description",
+                        "in": "formData"
                     }
                 ],
                 "responses": {
@@ -226,6 +239,9 @@ const docTemplate = `{
         "model.User": {
             "type": "object",
             "properties": {
+                "avatar": {
+                    "type": "string"
+                },
                 "createdAt": {
                     "type": "string"
                 },

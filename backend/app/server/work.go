@@ -9,6 +9,8 @@ import (
 	"io/ioutil"
 	"net/http"
 	"path"
+	"strconv"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -81,6 +83,8 @@ func listWorks(c *gin.Context) {
 // @Description upload a work
 // @Tags auth
 // @Param file formData file true "work file"
+// @Param name formData string true "work name"
+// @Param description formData string false "work description"
 // @Success 200 {string} success
 // @Router /works [post]
 func uploadWork(c *gin.Context) {
@@ -122,24 +126,19 @@ func uploadWork(c *gin.Context) {
 		return
 	}
 
-	// var req AddWorkReq
-	// if err := c.ShouldBindJSON(&req); err != nil {
-	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error(), "message": "invalid request"})
-	// 	return
-	// }
-
-	// if len(req.Title) == 0 {
-	// 	// generate a title by create time
-	// 	fileNameInt := time.Now().Unix()
-	// 	fileNameStr := strconv.FormatInt(fileNameInt, 10)
-	// 	req.Title = fileNameStr + extString
-	// }
+	name := c.PostForm("name")
+	if len(name) == 0 {
+		// generate a title by create time
+		fileNameInt := time.Now().Unix()
+		fileNameStr := strconv.FormatInt(fileNameInt, 10)
+		name = fileNameStr + extString
+	}
 
 	image := model.Work{
-		UserID: userId,
-		Data:   encodeToBase64(fileData),
-		// WorkName: req.Title,
-		// WorkDesc: req.Description,
+		UserID:   userId,
+		Data:     encodeToBase64(fileData),
+		WorkName: name,
+		WorkDesc: c.PostForm("descrition"),
 	}
 	if err := db.Db().Create(&image).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

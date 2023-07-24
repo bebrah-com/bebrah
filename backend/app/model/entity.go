@@ -7,6 +7,7 @@ type User struct {
 	UserName  string    `gorm:"type:VARCHAR(256);unique;not null"`
 	Email     string    `gorm:"type:VARCHAR(256);unique;not null"`
 	Password  string    `gorm:"type:VARCHAR(128);not null"`
+	Avatar    string    `gorm:"type:BLOB"`
 	CreatedAt time.Time `gorm:"created_at;autoCreateTime"`
 	Token     string    `gorm:"type:TEXT"`
 }
