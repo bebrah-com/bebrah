@@ -61,7 +61,7 @@ func InitDb(path string) {
 		panic("failed to connect database")
 	}
 
-	db.AutoMigrate(&model.User{}, &model.Work{}, &model.Like{}, &model.Follow{})
+	db.AutoMigrate(&model.User{}, &model.Work{}, &model.Like{}, &model.Follow{}, &model.Comment{})
 }
 
 func Db() *gorm.DB {

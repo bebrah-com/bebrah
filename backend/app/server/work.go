@@ -55,7 +55,7 @@ func listWorks(c *gin.Context) {
 		}
 
 		// list works by user id
-		if err := db.Db().Where("user_id = ?", req.UserId).Order("created_at DESC").Offset(countOffset(req.Page, req.PageSize)).Find(&works).Error; err != nil {
+		if err := db.Db().Where("user_id = ?", req.UserId).Order("created_at DESC").Offset(countOffset(req.Page, req.PageSize)).Preload("User").Find(&works).Error; err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}
@@ -66,7 +66,7 @@ func listWorks(c *gin.Context) {
 		}
 
 		// list all works
-		if err := db.Db().Order("created_at DESC").Offset(countOffset(req.Page, req.PageSize)).Find(&works).Error; err != nil {
+		if err := db.Db().Order("created_at DESC").Offset(countOffset(req.Page, req.PageSize)).Preload("User").Find(&works).Error; err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
 		}

@@ -1,5 +1,12 @@
 basePath: /api/v1
 definitions:
+  model.CommentWorkReq:
+    properties:
+      content:
+        type: string
+      work_id:
+        type: integer
+    type: object
   model.EditMyProfileReq:
     properties:
       user:
@@ -158,6 +165,55 @@ paths:
             type: string
       tags:
       - auth
+  /comments:
+    post:
+      description: comment a work
+      parameters:
+      - description: comment work request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.CommentWorkReq'
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      tags:
+      - comment
+  /comments/:comment_id:
+    delete:
+      description: delete a comment
+      parameters:
+      - description: comment id
+        in: path
+        name: commentId
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      tags:
+      - comment
+  /comments/:work_id:
+    get:
+      description: list comments by work id
+      parameters:
+      - description: work id
+        in: path
+        name: work_id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      tags:
+      - comment
   /likes/:user_id:
     post:
       description: list works by user like

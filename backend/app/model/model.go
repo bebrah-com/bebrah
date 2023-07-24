@@ -50,3 +50,13 @@ type ListLikedWorksResp struct {
 	Works []Work `json:"works"`
 	Count int64  `json:"count"`
 }
+
+type CommentWorkReq struct {
+	WorkId  uint64 `json:"work_id"`
+	Content string `json:"content"`
+}
+
+type ListCommentsByWorkIdResp struct {
+	Comments []Comment `json:"comments"`
+	Count    int64     `json:"count"`
+}

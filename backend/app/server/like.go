@@ -113,12 +113,12 @@ func listLikes(c *gin.Context) {
 	}
 
 	var likes []model.Like
-	db.Db().Where("user_id = ? and deleted_at IS NULL", userId).Find(&likes)
+	db.Db().Where("user_id = ? and deleted_at IS NULL", userId).Order("created_at DESC").Find(&likes)
 
 	var works []model.Work
 	for _, like := range likes {
 		var work model.Work
-		db.Db().Where("id = ?", like.WorkID).First(&work)
+		db.Db().Where("id = ?", like.WorkID).Preload("User").First(&work)
 		if work.ID != 0 {
 			works = append(works, work)
 		}

@@ -46,3 +46,14 @@ type Follow struct {
 	CreatedAt  time.Time  `gorm:"created_at;type:TIMESTAMP;autoCreateTime" json:"created_at"`
 	DeletedAt  *time.Time `gorm:"deleted_at;type:TIMESTAMP" json:"deleted_at"`
 }
+
+type Comment struct {
+	ID        uint64     `gorm:"primaryKey;autoIncrement" json:"id"`
+	UserID    uint64     `gorm:"index;not null" json:"user_id"`
+	User      *User      `gorm:"foreignKey:UserID" json:"user"`
+	WorkID    uint64     `gorm:"index;not null" json:"work_id"`
+	Work      *Work      `gorm:"foreignKey:WorkID" json:"work"`
+	Content   string     `gorm:"type:TEXT;not null" json:"content"`
+	CreatedAt time.Time  `gorm:"created_at;type:TIMESTAMP;autoCreateTime" json:"created_at"`
+	DeletedAt *time.Time `gorm:"deleted_at;type:TIMESTAMP" json:"deleted_at"`
+}

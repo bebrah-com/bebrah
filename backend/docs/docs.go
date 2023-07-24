@@ -91,6 +91,83 @@ const docTemplate = `{
                 }
             }
         },
+        "/comments": {
+            "post": {
+                "description": "comment a work",
+                "tags": [
+                    "comment"
+                ],
+                "parameters": [
+                    {
+                        "description": "comment work request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.CommentWorkReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/comments/:comment_id": {
+            "delete": {
+                "description": "delete a comment",
+                "tags": [
+                    "comment"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "comment id",
+                        "name": "commentId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/comments/:work_id": {
+            "get": {
+                "description": "list comments by work id",
+                "tags": [
+                    "comment"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "work id",
+                        "name": "work_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/likes/:user_id": {
             "post": {
                 "description": "list works by user like",
@@ -336,6 +413,17 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "model.CommentWorkReq": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "work_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "model.EditMyProfileReq": {
             "type": "object",
             "properties": {
