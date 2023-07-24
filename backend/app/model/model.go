@@ -45,3 +45,8 @@ type GetProfileResp struct {
 type EditMyProfileReq struct {
 	User User `json:"user"`
 }
+
+type ListLikedWorksResp struct {
+	Works []Work `json:"works"`
+	Count int64  `json:"count"`
+}

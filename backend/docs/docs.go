@@ -91,6 +91,79 @@ const docTemplate = `{
                 }
             }
         },
+        "/likes/:user_id": {
+            "post": {
+                "description": "list works by user like",
+                "tags": [
+                    "like"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "user id",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/likes/:work_id": {
+            "post": {
+                "description": "like a work",
+                "tags": [
+                    "like"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "work id",
+                        "name": "work_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "unlike a work",
+                "tags": [
+                    "like"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "work id",
+                        "name": "work_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/ping": {
             "get": {
                 "description": "do ping",
@@ -396,6 +469,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "id": {
+                    "type": "integer"
+                },
+                "liked": {
                     "type": "integer"
                 },
                 "user": {

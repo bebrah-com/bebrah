@@ -24,6 +24,7 @@ type Work struct {
 	CreatedAt time.Time  `gorm:"created_at;autoCreateTime" json:"created_at"`
 	DeletedAt *time.Time `gorm:"deleted_at;type:TIMESTAMP" json:"deleted_at"`
 	Viewed    uint64     `gorm:"default:0" json:"viewed"`
+	Liked     uint64     `gorm:"default:0" json:"liked"`
 }
 
 type Like struct {

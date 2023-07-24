@@ -87,6 +87,8 @@ definitions:
         type: string
       id:
         type: integer
+      liked:
+        type: integer
       user:
         $ref: '#/definitions/model.User'
       user_id:
@@ -156,6 +158,53 @@ paths:
             type: string
       tags:
       - auth
+  /likes/:user_id:
+    post:
+      description: list works by user like
+      parameters:
+      - description: user id
+        in: path
+        name: user_id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      tags:
+      - like
+  /likes/:work_id:
+    delete:
+      description: unlike a work
+      parameters:
+      - description: work id
+        in: path
+        name: work_id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      tags:
+      - like
+    post:
+      description: like a work
+      parameters:
+      - description: work id
+        in: path
+        name: work_id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      tags:
+      - like
   /ping:
     get:
       description: do ping

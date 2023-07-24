@@ -44,6 +44,7 @@ func SetupRouter() *gin.Engine {
 	setupWork(router)
 	setupProfile(router)
 	setupNft(router)
+	setupLike(router)
 
 	server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	return server
