@@ -1,5 +1,15 @@
 basePath: /api/v1
 definitions:
+  model.EditMyProfileReq:
+    properties:
+      user:
+        $ref: '#/definitions/model.User'
+    type: object
+  model.GetProfileResp:
+    properties:
+      user:
+        $ref: '#/definitions/model.User'
+    type: object
   model.GetWorkResp:
     properties:
       work:
@@ -50,36 +60,42 @@ definitions:
     properties:
       avatar:
         type: string
-      createdAt:
+      banner:
+        type: string
+      created_at:
         type: string
       email:
         type: string
       id:
         type: integer
+      info:
+        type: string
       password:
         type: string
       token:
         type: string
-      userName:
+      user_name:
         type: string
     type: object
   model.Work:
     properties:
-      createdAt:
+      created_at:
         type: string
       data:
         type: string
-      deletedAt:
+      deleted_at:
         type: string
       id:
         type: integer
       user:
         $ref: '#/definitions/model.User'
-      userID:
+      user_id:
         type: integer
-      workDesc:
+      viewed:
+        type: integer
+      work_desc:
         type: string
-      workName:
+      work_name:
         type: string
     type: object
 externalDocs:
@@ -150,6 +166,48 @@ paths:
             type: string
       tags:
       - example
+  /profiles/:user_id:
+    get:
+      description: get profile
+      parameters:
+      - description: user id
+        in: path
+        name: user_id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GetProfileResp'
+      tags:
+      - profile
+  /profiles/me:
+    get:
+      description: get my profile
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GetProfileResp'
+      tags:
+      - profile
+    post:
+      description: edit my profile, note avatar and banner should be a base64 string
+      parameters:
+      - description: Edit profile request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.EditMyProfileReq'
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      tags:
+      - profile
   /works:
     get:
       description: list all works (by user id or not)

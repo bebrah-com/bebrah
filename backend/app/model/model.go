@@ -37,3 +37,11 @@ type ListWorksResp struct {
 type GetWorkResp struct {
 	Work Work `json:"work"`
 }
+
+type GetProfileResp struct {
+	User User `json:"user"`
+}
+
+type EditMyProfileReq struct {
+	User User `json:"user"`
+}

@@ -107,6 +107,72 @@ const docTemplate = `{
                 }
             }
         },
+        "/profiles/:user_id": {
+            "get": {
+                "description": "get profile",
+                "tags": [
+                    "profile"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "user id",
+                        "name": "user_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.GetProfileResp"
+                        }
+                    }
+                }
+            }
+        },
+        "/profiles/me": {
+            "get": {
+                "description": "get my profile",
+                "tags": [
+                    "profile"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.GetProfileResp"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "edit my profile, note avatar and banner should be a base64 string",
+                "tags": [
+                    "profile"
+                ],
+                "parameters": [
+                    {
+                        "description": "Edit profile request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.EditMyProfileReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/works": {
             "get": {
                 "description": "list all works (by user id or not)",
@@ -197,6 +263,22 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "model.EditMyProfileReq": {
+            "type": "object",
+            "properties": {
+                "user": {
+                    "$ref": "#/definitions/model.User"
+                }
+            }
+        },
+        "model.GetProfileResp": {
+            "type": "object",
+            "properties": {
+                "user": {
+                    "$ref": "#/definitions/model.User"
+                }
+            }
+        },
         "model.GetWorkResp": {
             "type": "object",
             "properties": {
@@ -275,7 +357,10 @@ const docTemplate = `{
                 "avatar": {
                     "type": "string"
                 },
-                "createdAt": {
+                "banner": {
+                    "type": "string"
+                },
+                "created_at": {
                     "type": "string"
                 },
                 "email": {
@@ -284,13 +369,16 @@ const docTemplate = `{
                 "id": {
                     "type": "integer"
                 },
+                "info": {
+                    "type": "string"
+                },
                 "password": {
                     "type": "string"
                 },
                 "token": {
                     "type": "string"
                 },
-                "userName": {
+                "user_name": {
                     "type": "string"
                 }
             }
@@ -298,13 +386,13 @@ const docTemplate = `{
         "model.Work": {
             "type": "object",
             "properties": {
-                "createdAt": {
+                "created_at": {
                     "type": "string"
                 },
                 "data": {
                     "type": "string"
                 },
-                "deletedAt": {
+                "deleted_at": {
                     "type": "string"
                 },
                 "id": {
@@ -313,13 +401,16 @@ const docTemplate = `{
                 "user": {
                     "$ref": "#/definitions/model.User"
                 },
-                "userID": {
+                "user_id": {
                     "type": "integer"
                 },
-                "workDesc": {
+                "viewed": {
+                    "type": "integer"
+                },
+                "work_desc": {
                     "type": "string"
                 },
-                "workName": {
+                "work_name": {
                     "type": "string"
                 }
             }

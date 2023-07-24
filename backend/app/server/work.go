@@ -94,11 +94,20 @@ func getWorkById(c *gin.Context) {
 	}
 
 	var work model.Work
-	if err := db.Db().Where("id = ?", workId).First(&work).Error; err != nil {
+	if err := db.Db().Where("id = ?", workId).Preload("Users").First(&work).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
+	work.Viewed++
+	db.Db().Model(&work).Update("viewed", work.Viewed)
+
+	if work.User == nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "user not found"})
+		return
+	}
+	work.User.Password = ""
+	work.User.Token = ""
 	c.JSON(http.StatusOK, model.GetWorkResp{
 		Work: work,
 	})
