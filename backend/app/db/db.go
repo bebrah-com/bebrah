@@ -54,7 +54,7 @@ func InitDb(path string) {
 		ServerName: env.DbHost,
 	})
 
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/test?tls=tidb&parseTime=true", env.DbUser, env.DbPassword, env.DbHost, env.DbPort)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/bebrah?tls=tidb&parseTime=true", env.DbUser, env.DbPassword, env.DbHost, env.DbPort)
 	var err error
 	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {

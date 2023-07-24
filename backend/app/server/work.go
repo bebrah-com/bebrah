@@ -36,7 +36,7 @@ func countOffset(page, pageSize uint64) int {
 // @Description list all works (by user id or not)
 // @Tags works
 // @Param request body model.ListWorksReq true "list works request"
-// @Success 200 {object} model.ListWokrsResp
+// @Success 200 {object} model.ListWorksResp
 // @Router /works [get]
 func listWorks(c *gin.Context) {
 	var req model.ListWorksReq
@@ -72,9 +72,35 @@ func listWorks(c *gin.Context) {
 		}
 	}
 
-	c.JSON(http.StatusOK, model.ListWokrsResp{
+	c.JSON(http.StatusOK, model.ListWorksResp{
 		Works: works,
 		Count: count,
+	})
+}
+
+// @BasePath /api/v1
+
+// @Description get a work by work_id
+// @Tags works
+// @Param id path uint64 true "work id"
+// @Success 200 {object} model.GetWorkResp
+// @Router /works/:id [get]
+func getWorkById(c *gin.Context) {
+	id := c.Param("id")
+	workId, err := strconv.ParseUint(id, 10, 64)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error(), "message": "invalid request"})
+		return
+	}
+
+	var work model.Work
+	if err := db.Db().Where("id = ?", workId).First(&work).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, model.GetWorkResp{
+		Work: work,
 	})
 }
 
@@ -150,15 +176,8 @@ func uploadWork(c *gin.Context) {
 
 func setupWork(r *gin.RouterGroup) {
 	work := r.Group("/works", middleware.JWTAuthMiddleware())
-	// list work
 	work.GET("/", listWorks)
-
-	// get work
-	work.GET("/:id", func(c *gin.Context) {
-		// TODO: implement
-	})
-
-	// upload work
+	work.GET("/:id", getWorkById)
 	work.POST("/", uploadWork)
 }
 

@@ -128,7 +128,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.ListWokrsResp"
+                            "$ref": "#/definitions/model.ListWorksResp"
                         }
                     }
                 }
@@ -169,20 +169,39 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/works/:id": {
+            "get": {
+                "description": "get a work by work_id",
+                "tags": [
+                    "works"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "work id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.GetWorkResp"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
-        "model.ListWokrsResp": {
+        "model.GetWorkResp": {
             "type": "object",
             "properties": {
-                "count": {
-                    "type": "integer"
-                },
-                "works": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/model.Work"
-                    }
+                "work": {
+                    "$ref": "#/definitions/model.Work"
                 }
             }
         },
@@ -197,6 +216,20 @@ const docTemplate = `{
                 },
                 "user_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "model.ListWorksResp": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "works": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Work"
+                    }
                 }
             }
         },

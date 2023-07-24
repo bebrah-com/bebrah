@@ -29,7 +29,11 @@ type ListWorksReq struct {
 	PageSize uint64 `json:"page_size"`
 }
 
-type ListWokrsResp struct {
+type ListWorksResp struct {
 	Works []Work `json:"works"`
 	Count int64  `json:"count"`
+}
+
+type GetWorkResp struct {
+	Work Work `json:"work"`
 }
