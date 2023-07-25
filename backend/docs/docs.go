@@ -168,8 +168,81 @@ const docTemplate = `{
                 }
             }
         },
-        "/likes/:user_id": {
+        "/follows/:followed_id": {
             "post": {
+                "description": "follow someone",
+                "tags": [
+                    "follows"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "followed user id",
+                        "name": "followed_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "unfollow someone",
+                "tags": [
+                    "follows"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "followed user id",
+                        "name": "followed_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/follows/:follower_id": {
+            "get": {
+                "description": "list followed users by follower id",
+                "tags": [
+                    "follows"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "follower id",
+                        "name": "follower_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/likes/:user_id": {
+            "get": {
                 "description": "list works by user like",
                 "tags": [
                     "like"

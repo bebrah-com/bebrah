@@ -214,8 +214,55 @@ paths:
             type: string
       tags:
       - comment
-  /likes/:user_id:
+  /follows/:followed_id:
+    delete:
+      description: unfollow someone
+      parameters:
+      - description: followed user id
+        in: path
+        name: followed_id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      tags:
+      - follows
     post:
+      description: follow someone
+      parameters:
+      - description: followed user id
+        in: path
+        name: followed_id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      tags:
+      - follows
+  /follows/:follower_id:
+    get:
+      description: list followed users by follower id
+      parameters:
+      - description: follower id
+        in: path
+        name: follower_id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      tags:
+      - follows
+  /likes/:user_id:
+    get:
       description: list works by user like
       parameters:
       - description: user id

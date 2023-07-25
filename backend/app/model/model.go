@@ -60,3 +60,8 @@ type ListCommentsByWorkIdResp struct {
 	Comments []Comment `json:"comments"`
 	Count    int64     `json:"count"`
 }
+
+type ListFollowsResp struct {
+	Follows []Follow `json:"follows"`
+	Count   int64    `json:"count"`
+}

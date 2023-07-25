@@ -103,7 +103,7 @@ func unlikeWork(c *gin.Context) {
 // @Tags like
 // @Param user_id path uint64 true "user id"
 // @Success 200 {string} success
-// @Router /likes/:user_id [post]
+// @Router /likes/:user_id [get]
 func listLikes(c *gin.Context) {
 	userIdStr := c.Param("user_id")
 	userId, err := strconv.ParseUint(userIdStr, 10, 64)
